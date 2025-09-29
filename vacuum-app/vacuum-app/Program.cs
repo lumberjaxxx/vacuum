@@ -11,7 +11,7 @@ namespace VacuumCleaner
          public Map(int width, int height)
             {
                 this.Width = width;
-                this.Height = Height;
+                this.Height = height;
                 _grid = new CellType[width, height];
                 for (int x = 0; x < width; x++)
                 {
@@ -67,14 +67,14 @@ namespace VacuumCleaner
                     {
                         if (x == robotX && y == robotY)
                         {
-                            Console.WriteLine("R");
+                            Console.Write("R");
                         }
                         else
                         {
                             switch (_grid[x, y])
                             {
                                 case CellType.Empty: Console.Write(". "); break;
-                                case CellType.Dirt: Console.Write("D. "); break;
+                                case CellType.Dirt: Console.Write("D "); break;
                                 case CellType.Obstacle: Console.Write("# "); break;
                                 case CellType.Cleaned: Console.Write("C "); break;
                             }
@@ -84,16 +84,87 @@ namespace VacuumCleaner
                 }
             }
         }
+    public class Robot
+    {
+        private readonly Map _map;
+        public int X { get; set; }
+        public int Y { get; set; }
+        
+        public Robot(Map map)
+        {
+            this._map = map;
+            this.X = 0;
+            this.Y = 0;
+        }
+        public bool Move(int newX, int newY)
+        {
+            if(_map.IsInBounds(newX,newY) && !_map.IsObstacle(newX, newY))
+            {
+                //set new location
+                
+                this.X = newX;
+                this.Y = newY;
+
+                //display robot location on grid
+                _map.Display(this.X, this.Y);
+                   return true;
+            }
+            else
+            {
+                //cannot move
+                return false;
+            }
+        }//move method
+        public void CleanCurrentSpot()
+        {
+            if (_map.IsDirt(this.X, this.Y))
+            {
+                _map.Clean(this.X, this.Y);
+                _map.Display(this.X, this.Y);
+            }
+        }
+        public void StartCleaning()
+        {
+            Console.WriteLine("Start cleaning the room");
+            //flag direction
+            int direction = 1;
+            for (int y = 0; y < _map.Height; y++)
+            {
+                int startX = (direction == 1) ? 0 : _map.Width - 1;
+                int endX = (direction == 1) ? _map.Width : -1;
+                
+                for (int x = startX; x != endX; x += direction)
+                {
+                    Move(x, y);
+                    CleanCurrentSpot();
+                }
+                direction *= -1;
+            }
+        }
+    }
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
-            Map myMap = new Map(5, 5);
-            Console.WriteLine($"Grid Width is {myMap.Width}");
-            Console.WriteLine($"Grid Height is {myMap.Width}"); 
-            myMap.Display(2, 3);
+            Console.WriteLine("Initialize Vacuum Cleaner!");
 
+            Map myMap = new Map(20, 10);
+
+            Console.WriteLine($"Grid Width is {myMap.Width}");
+            Console.WriteLine($"Grid Height is {myMap.Height}");
+
+            myMap.AddDirt(1, 1);
+            myMap.AddDirt(7, 5);
+            myMap.AddObstacle(3, 7);
+
+            myMap.Display(10,9);
+
+            Robot rob = new Robot(myMap);
+
+            rob.StartCleaning();
+
+            Console.WriteLine("Done");
+             
         }
 
     }
