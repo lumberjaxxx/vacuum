@@ -67,7 +67,7 @@ namespace VacuumCleaner
                     {
                         if (x == robotX && y == robotY)
                         {
-                            Console.Write("R");
+                            Console.Write("R ");
                         }
                         else
                         {
@@ -82,7 +82,7 @@ namespace VacuumCleaner
                     }
                     Console.WriteLine();
                 }//add delay
-            Thread.Sleep(200);
+            Thread.Sleep(100);
             }
         }
     public interface IStrategy
@@ -190,7 +190,7 @@ namespace VacuumCleaner
                 //right to left across bottom
                 if (top <= bottom)
                 {
-                    for (int x = right; x >= left; x++)
+                    for (int x = right; x >= left; x--)
                     {
                         robot.Move(x, bottom);
                         robot.CleanCurrentSpot();
@@ -265,7 +265,7 @@ namespace VacuumCleaner
         {
             Console.WriteLine("Initialize Vacuum Cleaner!");
 
-            Map myMap = new Map(20, 10);
+            Map myMap = new Map(10, 10);
 
             Console.WriteLine($"Grid Width is {myMap.Width}");
             Console.WriteLine($"Grid Height is {myMap.Height}");
@@ -280,7 +280,7 @@ namespace VacuumCleaner
                 myMap.AddObstacle(x, y);
 
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 int x = random.Next(0, myMap.Width);
                 int y = random.Next(0, myMap.Height);
