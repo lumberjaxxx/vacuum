@@ -1,0 +1,14 @@
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\bin\Debug\net7.0\vacuum-app.exe
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\bin\Debug\net7.0\vacuum-app.deps.json
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\bin\Debug\net7.0\vacuum-app.runtimeconfig.json
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\bin\Debug\net7.0\vacuum-app.dll
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\bin\Debug\net7.0\vacuum-app.pdb
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.AssemblyInfoInputs.cache
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.AssemblyInfo.cs
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.csproj.CoreCompileInputs.cache
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.dll
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\refint\vacuum-app.dll
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.pdb
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\vacuum-app.genruntimeconfig.cache
+C:\Users\Rex Gatchalian\Desktop\is-vacuum-robot\vacuum-app\vacuum-app\obj\Debug\net7.0\ref\vacuum-app.dll
