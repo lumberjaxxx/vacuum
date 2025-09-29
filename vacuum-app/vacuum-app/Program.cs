@@ -81,18 +81,149 @@ namespace VacuumCleaner
                         }
                     }
                     Console.WriteLine();
+                }//add delay
+            Thread.Sleep(200);
+            }
+        }
+    public interface IStrategy
+    {
+        void Clean(Robot robot);
+    }
+
+    public class DefaultStrategy: IStrategy
+    {
+        public void Clean(Robot robot)
+        {
+            Console.WriteLine("Start cleaning the room");
+            //flag default direction
+            int direction = 1; // -1 if left
+            for (int y = 0; y < robot.Map.Height; y++)
+            {
+                int startX = (direction == 1) ? 0 : robot.Map.Width - 1;
+                int endX = (direction == 1) ? robot.Map.Width : -1;
+
+                for (int x = startX; x != endX; x += direction)
+                {
+                    robot.Move(x, y);
+                    robot.CleanCurrentSpot();
+                }
+                direction *= -1;
+            }
+        }
+        
+    }
+
+    public class ReverseStrategy : IStrategy
+    {
+        public void Clean(Robot robot)
+        {
+            Console.WriteLine("Start cleaning the room");
+            //flag default direction
+            int direction = -1; // -1 if left
+            for (int y = robot.Map.Height; y >=0; y--)
+            {
+                int startX = (direction == 1) ? 0 : robot.Map.Width - 1;
+                int endX = (direction == 1) ? robot.Map.Width : -1;
+
+                for (int x = startX; x != endX; x += direction)
+                {
+                    robot.Move(x, y);
+                    robot.CleanCurrentSpot();
+                }
+                direction *= 1;
+            }
+        }
+    }
+
+    public class VerticalStrategy : IStrategy
+    {
+        public void Clean(Robot robot)
+        {
+                Console.WriteLine("Start cleaning the room");
+                //flag default direction
+                int direction = 1; // -1 if left
+                for (int x = 0; x < robot.Map.Width; x++)
+                {
+                    int startY = (direction == 1) ? 0 : robot.Map.Height - 1;
+                    int endY = (direction == 1) ? robot.Map.Height : -1;
+
+                    for (int y = startY; y != endY; y += direction)
+                    {
+                        robot.Move(x, y);
+                        robot.CleanCurrentSpot();
+                    }
+                    direction *= -1;
+                }
+
+        }
+    }
+    public class SpiralStrategy : IStrategy
+    {
+        public void Clean(Robot robot)
+        {
+            Console.WriteLine("Start Cleaning the Room");
+
+            int top = 0;
+            int bottom = robot.Map.Height - 1;
+            int left = 0;
+            int right = robot.Map.Width - 1;
+
+            while ( top <= bottom && left <= right)
+            {
+                //left to right accross top
+                for (int x = left; x <= right; x++)
+                {
+                    robot.Move(x, top);
+                    robot.CleanCurrentSpot();
+                }
+                top++;
+
+                // top to bottom down right
+
+                for (int y = top; y <= bottom; y++)
+                {
+                    robot.Move(right, y);
+                    robot.CleanCurrentSpot();
+                }
+                right--;
+
+                //right to left across bottom
+                if (top <= bottom)
+                {
+                    for (int x = right; x >= left; x++)
+                    {
+                        robot.Move(x, bottom);
+                        robot.CleanCurrentSpot();
+                    }
+                    bottom--;
+                }
+
+                //bottom to top up right
+                if ( left <= right)
+                {
+                    for (int y = bottom; y >= top; y--)
+                    {
+                        robot.Move(left, y);
+                        robot.CleanCurrentSpot();
+                    }
+                    left++;
                 }
             }
         }
+    }
     public class Robot
     {
         private readonly Map _map;
+        private readonly IStrategy _strategy;
         public int X { get; set; }
         public int Y { get; set; }
+
+        public Map Map { get { return _map; } }
         
-        public Robot(Map map)
+        public Robot(Map map, IStrategy strategy)
         {
             this._map = map;
+            this._strategy = strategy;
             this.X = 0;
             this.Y = 0;
         }
@@ -125,21 +256,7 @@ namespace VacuumCleaner
         }
         public void StartCleaning()
         {
-            Console.WriteLine("Start cleaning the room");
-            //flag direction
-            int direction = 1;
-            for (int y = 0; y < _map.Height; y++)
-            {
-                int startX = (direction == 1) ? 0 : _map.Width - 1;
-                int endX = (direction == 1) ? _map.Width : -1;
-                
-                for (int x = startX; x != endX; x += direction)
-                {
-                    Move(x, y);
-                    CleanCurrentSpot();
-                }
-                direction *= -1;
-            }
+            _strategy.Clean(this);
         }
     }
     public class Program
@@ -153,13 +270,29 @@ namespace VacuumCleaner
             Console.WriteLine($"Grid Width is {myMap.Width}");
             Console.WriteLine($"Grid Height is {myMap.Height}");
 
-            myMap.AddDirt(1, 1);
-            myMap.AddDirt(7, 5);
-            myMap.AddObstacle(3, 7);
+            //random dirt and obstacle
+            Random random = new Random();
+
+            for (int i = 0; i < 5; i++)
+            {
+                int x = random.Next(0, myMap.Width);
+                int y = random.Next(0, myMap.Height);
+                myMap.AddObstacle(x, y);
+
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                int x = random.Next(0, myMap.Width);
+                int y = random.Next(0, myMap.Height);
+                myMap.AddDirt(x, y);
+
+            }
 
             myMap.Display(10,9);
 
-            Robot rob = new Robot(myMap);
+            IStrategy strat = new VerticalStrategy();
+
+            Robot rob = new Robot(myMap, strat);
 
             rob.StartCleaning();
 
